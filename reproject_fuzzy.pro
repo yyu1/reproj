@@ -25,23 +25,6 @@
 
 
 ;South America
-;in_xdim = 38400ULL  
-;in_ydim = 43200ULL  
-;in_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior.flt' 
-;in_tl_x = -11119505.1960     ;top left corner of top left pixel of input image  (in MODIS grid m)
-;in_tl_y = 3335851.5590     ;top left corner of top left pixel of input image  (in MODIS grid m)
-;in_x_size = 231.65635825D ;pixel width in meters
-;in_y_size = 231.65635825D ;pixel height in meters
-;out_xdim = 34125ULL  
-;out_ydim = 34125ULL 
-;out_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior_9.6sec.flt'
-;out_tl_x = -120.0D    ;top left corner of top left pixel of input image  (in degrees longitude)
-;out_tl_y = 30.0D     ;top left corner of top left pixel of input image  (in degrees latitude)
-;out_x_size = 0.0026666666666D ;pixel width degrees longitude
-;out_y_size = 0.0026666666666D ;pixel height degrees latitude
-;background_val = 0
-
-;South America slice
 in_xdim = 38400ULL  
 in_ydim = 43200ULL  
 in_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior.flt' 
@@ -49,14 +32,31 @@ in_tl_x = -11119505.1960     ;top left corner of top left pixel of input image  
 in_tl_y = 3335851.5590     ;top left corner of top left pixel of input image  (in MODIS grid m)
 in_x_size = 231.65635825D ;pixel width in meters
 in_y_size = 231.65635825D ;pixel height in meters
-out_xdim = 13000ULL  
-out_ydim = 4000ULL 
-out_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior_9.6sec_slice_fuzzy.flt'
-out_tl_x = -82.32084179   ;top left corner of top left pixel of input image  (in degrees longitude)
-out_tl_y = 1.91818712   ;top left corner of top left pixel of input image  (in degrees latitude)
+out_xdim = 34125ULL  
+out_ydim = 34125ULL 
+out_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior_9.6sec_fuzzy.flt'
+out_tl_x = -120.0D    ;top left corner of top left pixel of input image  (in degrees longitude)
+out_tl_y = 30.0D     ;top left corner of top left pixel of input image  (in degrees latitude)
 out_x_size = 0.0026666666666D ;pixel width degrees longitude
 out_y_size = 0.0026666666666D ;pixel height degrees latitude
 background_val = 0
+
+;South America slice
+;in_xdim = 38400ULL  
+;in_ydim = 43200ULL  
+;in_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior.flt' 
+;in_tl_x = -11119505.1960     ;top left corner of top left pixel of input image  (in MODIS grid m)
+;in_tl_y = 3335851.5590     ;top left corner of top left pixel of input image  (in MODIS grid m)
+;in_x_size = 231.65635825D ;pixel width in meters
+;in_y_size = 231.65635825D ;pixel height in meters
+;out_xdim = 13000ULL  
+;out_ydim = 4000ULL 
+;out_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior_9.6sec_slice_fuzzy2.flt'
+;out_tl_x = -82.32084179   ;top left corner of top left pixel of input image  (in degrees longitude)
+;out_tl_y = 1.91818712   ;top left corner of top left pixel of input image  (in degrees latitude)
+;out_x_size = 0.0026666666666D ;pixel width degrees longitude
+;out_y_size = 0.0026666666666D ;pixel height degrees latitude
+;background_val = 0
 
 
 ;allocate memory
@@ -98,8 +98,8 @@ for j=0ULL, out_ydim-1 do begin
 	in_ind_y[*] = floor((in_tl_y-in_ycoords)/in_y_size, /l64)
 
 	;Look for out of bounds pixels
-	x_obb_index = where((in_ind_x lt 0) or (in_ind_x ge in_xdim), xcount)
-	y_obb_index = where((in_ind_y lt 0) or (in_ind_y ge in_ydim), ycount)
+	x_obb_index = where((in_ind_x lt 1) or (in_ind_x ge in_xdim-1), xcount)
+	y_obb_index = where((in_ind_y lt 1) or (in_ind_y ge in_ydim-1), ycount)
 
 	;temporarily setting out of bounds indices to 0,0
 	if (xcount gt 0) then begin
@@ -114,6 +114,13 @@ for j=0ULL, out_ydim-1 do begin
 		in_win = in_image[in_ind_x[i]-1:in_ind_x[i]+1,in_ind_y[i]-1:in_ind_y[i]+1]
 		if (in_win[1,1] gt 0) then begin
 			index = where(in_win gt 0, count)
+			;if we have a single pixel, that borders at least 2 pixels of 0 (water) and is over 2 stdev from mean of the pixels that do have value, we drop it back to the mean of the bordering pixels with value.
+			;this is to remove those artifacts of bright pixels next to water
+			if (count le 7) then begin
+				tmp_mean = mean(in_win[index])
+				tmp_stdev = stddev(in_win[index])
+				if (abs(in_win[1,1] - tmp_mean ) gt (1.5*tmp_stdev)) then in_win[1,1] = tmp_mean
+			endif
 			out_line[i] = total(in_win[index] * weights[index])/total(weights[index])
 		endif
 	endfor
