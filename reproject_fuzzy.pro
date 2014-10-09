@@ -5,41 +5,42 @@
 ;But the files here should be under 10 gig in size and the 16GB memory can handle it
 ;This makes reading individual pixel values much faster
 
-;in_xdim = 43200ULL;  Africa
-;in_ydim = 38400ULL;  Africa
-;in_file = '/Volumes/Global_250m/output/afr/v3/maxent_afr_hlorey_v3_filled.flt' ;Africa
-;in_tl_x = -3335851.5588D     ;top left corner of top left pixel of input image  (in MODIS grid m)
-;in_tl_y = 4447802.0784D     ;top left corner of top left pixel of input image  (in MODIS grid m)
-;in_x_size = 231.65635825D ;pixel width in meters
-;in_y_size = 231.65635825D ;pixel height in meters
-;
-;;Target file setup
-;out_xdim = 28500ULL;  Africa
-;out_ydim = 30000ULL;  Africa
-;out_file = '/Volumes/Global_250m/output/afr/v3/maxent_afr_hlorey_v3_filled_9.6sec.flt' ;Africa
-;out_tl_x = -20.0D    ;top left corner of top left pixel of input image  (in degrees longitude)
-;out_tl_y = 40.0D     ;top left corner of top left pixel of input image  (in degrees latitude)
-;out_x_size = 0.0026666666666D ;pixel width degrees longitude
-;out_y_size = 0.0026666666666D ;pixel height degrees latitude
-;background_val = 0
-
-
-;South America
-in_xdim = 38400ULL  
-in_ydim = 43200ULL  
-in_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior.flt' 
-in_tl_x = -11119505.1960     ;top left corner of top left pixel of input image  (in MODIS grid m)
-in_tl_y = 3335851.5590     ;top left corner of top left pixel of input image  (in MODIS grid m)
+;Africa
+in_xdim = 43200ULL;  Africa
+in_ydim = 38400ULL;  Africa
+in_file = '/Volumes/Global_250m/output/afr/v3/maxent_afr_hlorey_v3_filled.flt' ;Africa
+in_tl_x = -3335851.5588D     ;top left corner of top left pixel of input image  (in MODIS grid m)
+in_tl_y = 4447802.0784D     ;top left corner of top left pixel of input image  (in MODIS grid m)
 in_x_size = 231.65635825D ;pixel width in meters
 in_y_size = 231.65635825D ;pixel height in meters
-out_xdim = 34125ULL  
-out_ydim = 34125ULL 
-out_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior_9.6sec_fuzzy.flt'
-out_tl_x = -120.0D    ;top left corner of top left pixel of input image  (in degrees longitude)
-out_tl_y = 30.0D     ;top left corner of top left pixel of input image  (in degrees latitude)
+
+;Target file setup
+out_xdim = 28500ULL;  Africa
+out_ydim = 30000ULL;  Africa
+out_file = '/Volumes/Global_250m/output/afr/v3/maxent_afr_hlorey_v3_filled_9.6sec.flt' ;Africa
+out_tl_x = -20.0D    ;top left corner of top left pixel of input image  (in degrees longitude)
+out_tl_y = 40.0D     ;top left corner of top left pixel of input image  (in degrees latitude)
 out_x_size = 0.0026666666666D ;pixel width degrees longitude
 out_y_size = 0.0026666666666D ;pixel height degrees latitude
 background_val = 0
+
+
+;South America
+;in_xdim = 38400ULL  
+;in_ydim = 43200ULL  
+;in_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior.flt' 
+;in_tl_x = -11119505.1960     ;top left corner of top left pixel of input image  (in MODIS grid m)
+;in_tl_y = 3335851.5590     ;top left corner of top left pixel of input image  (in MODIS grid m)
+;in_x_size = 231.65635825D ;pixel width in meters
+;in_y_size = 231.65635825D ;pixel height in meters
+;out_xdim = 34125ULL  
+;out_ydim = 34125ULL 
+;out_file = '/Volumes/Global_250m/output/sam/v3/maxent_sam_hlorey_using_newprior_9.6sec_fuzzy.flt'
+;out_tl_x = -120.0D    ;top left corner of top left pixel of input image  (in degrees longitude)
+;out_tl_y = 30.0D     ;top left corner of top left pixel of input image  (in degrees latitude)
+;out_x_size = 0.0026666666666D ;pixel width degrees longitude
+;out_y_size = 0.0026666666666D ;pixel height degrees latitude
+;background_val = 0
 
 ;South America slice
 ;in_xdim = 38400ULL  
