@@ -103,7 +103,7 @@ for i=0ULL, out_xdim-1 do begin
 	xcoeff[i] = i+0.5
 endfor
 
-weights = [[0.05,0.05,0.05],[0.05,0.6,0.05],[0.05,0.05,0.05]]
+weights = [[0.02,0.02,0.02],[0.02,0.84,0.02],[0.02,0.02,0.02]]
 
 for j=0ULL, out_ydim-1 do begin
 	out_line[*] = 0
